@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Список транзакций</h2>
+<a href="/transactions/add" class="btn btn-primary mb-2">Добавить транзакцию</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Отправитель</th>
+      <th>Получатель</th>
+      <th>Сумма</th>
+      <th>Дата/время</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for txn in transactions %}
+    <tr>
+      <td>{{ txn.id }}</td>
+      <td>{{ txn.sender.number }}</td>
+      <td>{{ txn.receiver.number }}</td>
+      <td>{{ txn.amount }}</td>
+      <td>{{ txn.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

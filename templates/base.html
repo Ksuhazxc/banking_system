@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banking System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    .card { border-radius: 1rem; }
+    .table thead { background-color: #343a40; color: #fff; }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <i class="bi bi-bank2-fill me-2"></i>Банк
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link {% if current_page=='clients' %}active{% endif %}" href="/clients">
+              <i class="bi bi-people-fill me-1"></i>Клиенты
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if current_page=='accounts' %}active{% endif %}" href="/accounts">
+              <i class="bi bi-wallet2 me-1"></i>Счета
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if current_page=='transactions' %}active{% endif %}" href="/transactions">
+              <i class="bi bi-arrow-left-right me-1"></i>Транзакции
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main class="container py-4 flex-grow-1">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="text-center py-3 bg-light mt-auto">
+    <small>&copy; 2025 Banking System</small>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

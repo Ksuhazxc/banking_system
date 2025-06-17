@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Список клиентов</h2>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clientModal">Добавить клиента</button>
+</div>
+<div class="card p-3 mb-4">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>ФИО</th>
+          <th>Паспорт</th>
+          <th>Контакты</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for client in clients %}
+        <tr>
+          <td>{{ client.id }}</td>
+          <td>{{ client.full_name }}</td>
+          <td>{{ client.passport }}</td>
+          <td>{{ client.contacts }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#clientModal"
+              data-id="{{client.id}}" data-name="{{client.full_name}}" data-passport="{{client.passport}}" data-contacts="{{client.contacts}}">
+              Редактировать
+            </button>
+            <a href="/clients/delete/{{ client.id }}" class="btn btn-sm btn-danger">Удалить</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Form -->
+<div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="clientForm" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="clientModalLabel">Добавить клиента</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" id="client-id">
+          <div class="mb-3">
+            <label for="full_name" class="form-label">ФИО</label>
+            <input type="text" class="form-control" id="full_name" name="full_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="passport" class="form-label">Паспорт</label>
+            <input type="text" class="form-control" id="passport" name="passport" required>
+          </div>
+          <div class="mb-3">
+            <label for="contacts" class="form-label">Контакты</label>
+            <input type="text" class="form-control" id="contacts" name="contacts" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-success">Сохранить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// Подготовка формы для редактирования
+var clientModal = document.getElementById('clientModal');
+clientModal.addEventListener('show.bs.modal', function (event) {
+  var button = event.relatedTarget;
+  var modalTitle = clientModal.querySelector('.modal-title');
+  var form = document.getElementById('clientForm');
+  var idInput = document.getElementById('client-id');
+  var nameInput = document.getElementById('full_name');
+  var passportInput = document.getElementById('passport');
+  var contactsInput = document.getElementById('contacts');
+
+  if (button.dataset.id) {
+    modalTitle.textContent = 'Редактировать клиента';
+    form.action = '/clients/edit/' + button.dataset.id;
+    idInput.value = button.dataset.id;
+    nameInput.value = button.dataset.name;
+    passportInput.value = button.dataset.passport;
+    contactsInput.value = button.dataset.contacts;
+  } else {
+    modalTitle.textContent = 'Добавить клиента';
+    form.action = '/clients/add';
+    idInput.value = '';
+    nameInput.value = '';
+    passportInput.value = '';
+    contactsInput.value = '';
+  }
+});
+</script>
+{% endblock %}
